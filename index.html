@@ -730,9 +730,8 @@ function updateGoal(val) {
 //  VOICE
 // ════════════════════════════════════════
 let recog = null, isListening = false;
-let lastCountedText = '';
 let lastCountedTime = 0;
-const COUNT_COOLDOWN_MS = 1500; // 同じ認識を1.5秒以内に重複カウントしない
+const COUNT_COOLDOWN_MS = 2000; // カウント後2秒以内は何があってもスキップ
 
 function initRecog() {
   const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -757,12 +756,10 @@ function initRecog() {
         const cnt = (text.match(/ありがとう/g) || []).length;
         if (cnt > 0) {
           const now = Date.now();
-          // 同じテキストが1.5秒以内に来た場合は重複とみなしスキップ
-          const isDuplicate = text === lastCountedText && (now - lastCountedTime) < COUNT_COOLDOWN_MS;
-          if (!isDuplicate) {
+          // カウント後2秒以内は内容に関わらずスキップ（二重認識防止）
+          if (now - lastCountedTime >= COUNT_COOLDOWN_MS) {
             addGratitude(cnt);
             setVoiceStatus(`「ありがとう」${cnt}回 認識`, true);
-            lastCountedText = text;
             lastCountedTime = now;
           } else {
             setVoiceStatus('🎤 聞いています…', true);
