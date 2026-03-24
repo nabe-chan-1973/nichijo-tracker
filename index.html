@@ -567,11 +567,11 @@ const DEFAULTS = {
   dailyAbundance: false,
   dailyMeditation1: false,
   dailyMeditation2: false,
-  dailyACIM: false,
+  dailyAcim: false,
   frozenGratitude: 0,
   frozenAbundance: 0,
   frozenMeditation: 0,
-  frozenACIM: 0,
+  frozenAcim: 0,
   bgImages: [],
   bgIndex: -1,
   autoRotate: false,
@@ -610,9 +610,9 @@ function checkReset() {
     S.frozenGratitude += S.dailyGratitude;
     if (S.dailyAbundance)                         S.frozenAbundance++;
     if (S.dailyMeditation1 || S.dailyMeditation2) S.frozenMeditation++;
-    if (S.dailyACIM)                              S.frozenACIM++;
+    if (S.dailyAcim)                              S.frozenAcim++;
     S.dailyGratitude = 0;
-    S.dailyAbundance = S.dailyMeditation1 = S.dailyMeditation2 = S.dailyACIM = false;
+    S.dailyAbundance = S.dailyMeditation1 = S.dailyMeditation2 = S.dailyAcim = false;
   }
   S.lastDate = today;
   save();
@@ -631,7 +631,7 @@ function daysSinceStart() {
 const totalGratitude  = () => S.frozenGratitude  + S.dailyGratitude;
 const totalAbundance  = () => S.frozenAbundance  + (S.dailyAbundance ? 1 : 0);
 const totalMeditation = () => S.frozenMeditation + ((S.dailyMeditation1 || S.dailyMeditation2) ? 1 : 0);
-const totalACIM       = () => S.frozenACIM       + (S.dailyACIM ? 1 : 0);
+const totalACIM       = () => S.frozenAcim       + (S.dailyAcim ? 1 : 0);
 
 // ════════════════════════════════════════
 //  RENDER
@@ -659,7 +659,7 @@ function render() {
   setCheck('abundance-item',   S.dailyAbundance);
   setCheck('meditation1-item', S.dailyMeditation1);
   setCheck('meditation2-item', S.dailyMeditation2);
-  setCheck('acim-item',        S.dailyACIM);
+  setCheck('acim-item',        S.dailyAcim);
   document.getElementById('total-abundance').textContent  = totalAbundance();
   document.getElementById('total-meditation').textContent = totalMeditation();
   document.getElementById('total-acim').textContent       = totalACIM();
